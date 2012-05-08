@@ -1,4 +1,4 @@
-from django.views.generic import ListView, DateDetailView
+from django.views.generic import ListView, MonthArchiveView, DateDetailView
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.conf import settings
@@ -28,6 +28,12 @@ class PostListCategoryView(ListView):
         context = super(PostListCategoryView, self).get_context_data(**kwargs)
         context['category'] = self.category
         return context
+
+
+class PostListMonthView(MonthArchiveView):
+    queryset = Post.objects.filter(published=True)
+    month_format = '%m'
+    date_field = 'date'
 
 
 class PostDetailView(DateDetailView):
