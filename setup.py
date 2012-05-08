@@ -17,6 +17,7 @@ setup(
     packages=[
         'blanc_basic_news',
         'blanc_basic_news.news',
+        'blanc_basic_news.news.templatetags',
     ],
     classifiers=[
         'Environment :: Web Environment',
