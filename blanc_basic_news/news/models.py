@@ -13,6 +13,12 @@ class Category(models.Model):
     def __unicode__(self):
         return self.title
 
+    @models.permalink
+    def get_absolute_url(self):
+        return ('blanc_basic_news:post-list-category', (), {
+            'slug': self.slug,
+        })
+
 
 class Post(models.Model):
     title = models.CharField(max_length=100, db_index=True)

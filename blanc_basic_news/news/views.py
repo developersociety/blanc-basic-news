@@ -1,7 +1,8 @@
 from django.views.generic import ListView, DateDetailView
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django.conf import settings
-from .models import Post
+from .models import Category, Post
 
 
 class PostListView(ListView):
@@ -9,6 +10,20 @@ class PostListView(ListView):
 
     def get_queryset(self):
         return Post.objects.filter(published=True, date__lte=timezone.now())
+
+
+class PostListCategoryView(ListView):
+    paginate_by = getattr(settings, 'NEWS_PER_PAGE', 10)
+    template_name_suffix = '_list_category'
+
+    def get_queryset(self):
+        self.category = get_object_or_404(Category, slug=self.kwargs['slug'])
+        return Post.objects.filter(published=True, date__lte=timezone.now(), category=self.category)
+
+    def get_context_data(self, **kwargs):
+        context = super(PostListCategoryView, self).get_context_data(**kwargs)
+        context['category'] = self.category
+        return context
 
 
 class PostDetailView(DateDetailView):
