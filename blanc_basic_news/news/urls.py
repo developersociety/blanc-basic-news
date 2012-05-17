@@ -5,9 +5,12 @@ import views
 
 urlpatterns = patterns('',
     # RSS feed
-    url(r'^feed/',
+    url(r'^feed/$',
         feeds.BasicNewsFeed(),
         name='feed'),
+    url(r'^feed/(?P<slug>[-\w]+)/$',
+        feeds.BasicNewsCategoryFeed(),
+        name='category-feed'),
 
     # Pages
     url(r'^$',

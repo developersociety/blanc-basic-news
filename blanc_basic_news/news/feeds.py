@@ -3,7 +3,8 @@ from django.core.urlresolvers import reverse_lazy
 from django.contrib.syndication.views import Feed
 from django.contrib.sites.models import Site
 from django.utils import timezone
-from .models import Post
+from django.shortcuts import get_object_or_404
+from .models import Category, Post
 
 
 class BasicNewsFeed(Feed):
@@ -23,3 +24,21 @@ class BasicNewsFeed(Feed):
 
     def item_guid(self, obj):
         return u'%s:news:%d' % (Site.objects.get_current().domain, obj.pk)
+
+
+class BasicNewsCategoryFeed(BasicNewsFeed):
+    def get_object(self, request, slug):
+        return get_object_or_404(Category, slug=slug)
+
+    def title(self, obj):
+        return u'%s - %s' % (
+                getattr(settings, 'NEWS_TITLE', 'News'), obj.title)
+
+    def link(self, obj):
+        return obj.get_absolute_url()
+
+    def items(self, obj):
+        feed_limit = getattr(settings, 'NEWS_FEED_LIMIT', 10)
+        return Post.objects.filter(published=True,
+                date__lte=timezone.now(),
+                category=obj)[:feed_limit]
