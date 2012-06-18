@@ -32,6 +32,7 @@ class Post(models.Model):
             blank=True)
     image_height = models.PositiveIntegerField(null=True, editable=False)
     image_width = models.PositiveIntegerField(null=True, editable=False)
+    teaser = models.TextField(blank=True)
     content = models.TextField()
     published = models.BooleanField(
             default=True,

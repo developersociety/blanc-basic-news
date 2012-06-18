@@ -12,7 +12,7 @@ class CategoryAdmin(admin.ModelAdmin):
 class PostAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
-            'fields': ('title', 'category', 'date', 'image', 'content')
+            'fields': ('title', 'category', 'date', 'image', 'teaser', 'content')
         }),
         ('Advanced options', {
             'fields': ('slug', 'published')
