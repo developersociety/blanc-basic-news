@@ -12,7 +12,8 @@ def get_news_categories():
 
 @register.assignment_tag
 def get_news_months():
-    return Post.objects.dates('date', 'month')
+    return Post.objects.filter(
+        published=True, date__lte=timezone.now()).dates('date', 'month')
 
 
 @register.assignment_tag
