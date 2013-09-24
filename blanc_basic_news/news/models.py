@@ -25,6 +25,7 @@ class Post(models.Model):
     category = models.ForeignKey(Category)
     slug = models.SlugField(max_length=100, unique_for_date='date')
     date = models.DateTimeField(default=timezone.now, db_index=True)
+    date_url = models.DateField(db_index=True, editable=False)
     image = models.ImageField(
             upload_to='news/image/%Y/%m',
             height_field='image_height',
@@ -49,8 +50,12 @@ class Post(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ('blanc_basic_news:post-detail', (), {
-            'year': self.date.year,
-            'month': str(self.date.month).zfill(2),
-            'day': str(self.date.day).zfill(2),
+            'year': self.date_url.year,
+            'month': str(self.date_url.month).zfill(2),
+            'day': str(self.date_url.day).zfill(2),
             'slug': self.slug,
         })
+
+    def save(self, *args, **kwargs):
+        self.date_url = self.date.date()
+        super(Post, self).save(*args, **kwargs)

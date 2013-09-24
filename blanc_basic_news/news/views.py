@@ -33,10 +33,10 @@ class PostListCategoryView(ListView):
 class PostListMonthView(MonthArchiveView):
     queryset = Post.objects.filter(published=True)
     month_format = '%m'
-    date_field = 'date'
+    date_field = 'date_url'
 
 
 class PostDetailView(DateDetailView):
     queryset = Post.objects.filter(published=True)
     month_format = '%m'
-    date_field = 'date'
+    date_field = 'date_url'
