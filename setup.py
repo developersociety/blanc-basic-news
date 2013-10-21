@@ -7,7 +7,7 @@ except ImportError:
 
 setup(
     name='blanc-basic-news',
-    version='0.1.2',
+    version='0.2',
     description='Blanc Basic News for Django',
     long_description=open('README.rst').read(),
     url='http://www.blanctools.com/',
