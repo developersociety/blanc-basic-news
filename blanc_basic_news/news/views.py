@@ -1,28 +1,24 @@
-from django.views.generic import ListView, MonthArchiveView, DateDetailView
+from django.views.generic import ArchiveIndexView, MonthArchiveView, DateDetailView
 from django.shortcuts import get_object_or_404
-from django.utils import timezone
 from django.conf import settings
 from .models import Category, Post
 
 
-class PostListView(ListView):
+class PostListView(ArchiveIndexView):
+    queryset = Post.objects.select_related().filter(published=True)
+    date_field = 'date'
     paginate_by = getattr(settings, 'NEWS_PER_PAGE', 10)
-
-    def get_queryset(self):
-        return Post.objects.select_related().filter(
-                published=True, date__lte=timezone.now())
+    template_name_suffix = '_list'
+    context_object_name = 'object_list'
 
 
-class PostListCategoryView(ListView):
-    paginate_by = getattr(settings, 'NEWS_PER_PAGE', 10)
+class PostListCategoryView(PostListView):
     template_name_suffix = '_list_category'
 
     def get_queryset(self):
+        qs = super(PostListCategoryView, self).get_queryset()
         self.category = get_object_or_404(Category, slug=self.kwargs['slug'])
-        return Post.objects.select_related().filter(
-                published=True,
-                date__lte=timezone.now(),
-                category=self.category)
+        return qs.filter(category=self.category)
 
     def get_context_data(self, **kwargs):
         context = super(PostListCategoryView, self).get_context_data(**kwargs)
