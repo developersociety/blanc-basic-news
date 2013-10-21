@@ -20,7 +20,7 @@ class Category(models.Model):
         })
 
 
-class Post(models.Model):
+class AbstractPost(models.Model):
     title = models.CharField(max_length=100, db_index=True)
     category = models.ForeignKey(Category)
     slug = models.SlugField(max_length=100, unique_for_date='date')
@@ -43,6 +43,7 @@ class Post(models.Model):
     class Meta:
         get_latest_by = 'date'
         ordering = ('-date',)
+        abstract = True
 
     def __unicode__(self):
         return self.title
@@ -58,4 +59,9 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         self.date_url = self.date.date()
-        super(Post, self).save(*args, **kwargs)
+        super(AbstractPost, self).save(*args, **kwargs)
+
+
+class Post(AbstractPost):
+    class Meta:
+        swappable = 'NEWS_POST_MODEL'
