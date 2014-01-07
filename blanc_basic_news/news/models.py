@@ -63,5 +63,5 @@ class AbstractPost(models.Model):
 
 
 class Post(AbstractPost):
-    class Meta:
+    class Meta(AbstractPost.Meta):
         swappable = 'NEWS_POST_MODEL'
