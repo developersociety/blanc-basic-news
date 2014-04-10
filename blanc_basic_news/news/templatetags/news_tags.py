@@ -14,7 +14,7 @@ def get_news_categories():
 @register.assignment_tag
 def get_news_months():
     return get_post_model().objects.filter(
-        published=True, date__lte=timezone.now()).dates('date', 'month')
+        published=True, date__lte=timezone.now()).dates('date_url', 'month')
 
 
 @register.assignment_tag
