@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url
-import feeds
-import views
+from . import feeds
+from . import views
 
 
 urlpatterns = patterns('',

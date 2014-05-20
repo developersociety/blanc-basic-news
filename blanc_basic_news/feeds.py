@@ -15,7 +15,7 @@ class BasicNewsFeed(Feed):
     def items(self):
         feed_limit = getattr(settings, 'NEWS_FEED_LIMIT', 10)
         return get_post_model().objects.filter(published=True,
-                date__lte=timezone.now())[:feed_limit]
+                                               date__lte=timezone.now())[:feed_limit]
 
     def item_description(self, obj):
         return obj.content
@@ -24,7 +24,7 @@ class BasicNewsFeed(Feed):
         return obj.date
 
     def item_guid(self, obj):
-        return u'%s:news:%d' % (Site.objects.get_current().domain, obj.pk)
+        return '%s:news:%d' % (Site.objects.get_current().domain, obj.pk)
 
 
 class BasicNewsCategoryFeed(BasicNewsFeed):
@@ -32,8 +32,7 @@ class BasicNewsCategoryFeed(BasicNewsFeed):
         return get_object_or_404(Category, slug=slug)
 
     def title(self, obj):
-        return u'%s - %s' % (
-                getattr(settings, 'NEWS_TITLE', 'News'), obj.title)
+        return '%s - %s' % (getattr(settings, 'NEWS_TITLE', 'News'), obj.title)
 
     def link(self, obj):
         return obj.get_absolute_url()
@@ -41,5 +40,5 @@ class BasicNewsCategoryFeed(BasicNewsFeed):
     def items(self, obj):
         feed_limit = getattr(settings, 'NEWS_FEED_LIMIT', 10)
         return get_post_model().objects.filter(published=True,
-                date__lte=timezone.now(),
-                category=obj)[:feed_limit]
+                                               date__lte=timezone.now(),
+                                               category=obj)[:feed_limit]

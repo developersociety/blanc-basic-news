@@ -1,14 +1,15 @@
 from django.contrib import admin
-from django.contrib.sites.models import Site
 from .models import Category, Post
 
 
+@admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {
-       'slug': ('title',)
+        'slug': ('title',)
     }
 
 
+@admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
     fieldsets = (
         (None, {
@@ -23,9 +24,5 @@ class PostAdmin(admin.ModelAdmin):
     list_editable = ('published',)
     list_filter = ('published', 'date', 'category')
     prepopulated_fields = {
-       'slug': ('title',)
+        'slug': ('title',)
     }
-
-
-admin.site.register(Category, CategoryAdmin)
-admin.site.register(Post, PostAdmin)
