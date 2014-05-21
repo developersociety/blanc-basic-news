@@ -30,12 +30,7 @@ class AbstractPost(models.Model):
     slug = models.SlugField(max_length=100, unique_for_date='date')
     date = models.DateTimeField(default=timezone.now, db_index=True)
     date_url = models.DateField(db_index=True, editable=False)
-    image = models.ImageField(upload_to='news/image/%Y/%m',
-                              height_field='image_height',
-                              width_field='image_width',
-                              blank=True)
-    image_height = models.PositiveIntegerField(null=True, editable=False)
-    image_width = models.PositiveIntegerField(null=True, editable=False)
+    image = models.ForeignKey('assets.Image', null=True, blank=True)
     teaser = models.TextField(blank=True)
     content = models.TextField()
     published = models.BooleanField(default=True,
