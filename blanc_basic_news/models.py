@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 from django.utils.encoding import python_2_unicode_compatible
 from django.db import models
 from django.utils import timezone
+from blanc_basic_assets.fields import AssetForeignKey
 
 
 @python_2_unicode_compatible
@@ -30,7 +31,7 @@ class AbstractPost(models.Model):
     slug = models.SlugField(max_length=100, unique_for_date='date')
     date = models.DateTimeField(default=timezone.now, db_index=True)
     date_url = models.DateField(db_index=True, editable=False)
-    image = models.ForeignKey('assets.Image', null=True, blank=True)
+    image = AssetForeignKey('assets.Image', null=True, blank=True)
     teaser = models.TextField(blank=True)
     content = models.TextField()
     published = models.BooleanField(default=True,
