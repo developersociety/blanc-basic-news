@@ -1,8 +1,9 @@
 from __future__ import unicode_literals
-from django.utils.encoding import python_2_unicode_compatible
+
+from blanc_basic_assets.fields import AssetForeignKey
 from django.db import models
 from django.utils import timezone
-from blanc_basic_assets.fields import AssetForeignKey
+from django.utils.encoding import python_2_unicode_compatible
 
 
 @python_2_unicode_compatible
@@ -34,9 +35,9 @@ class AbstractPost(models.Model):
     image = AssetForeignKey('assets.Image', null=True, blank=True)
     teaser = models.TextField(blank=True)
     content = models.TextField()
-    published = models.BooleanField(default=True,
-                                    db_index=True,
-                                    help_text='Post will be hidden unless this option is selected')
+    published = models.BooleanField(
+        default=True, db_index=True,
+        help_text='Post will be hidden unless this option is selected')
 
     class Meta:
         get_latest_by = 'date'

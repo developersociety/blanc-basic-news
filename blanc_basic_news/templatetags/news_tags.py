@@ -1,7 +1,8 @@
 from django import template
 from django.utils import timezone
-from blanc_basic_news import get_post_model
-from blanc_basic_news.models import Category
+
+from .. import get_post_model
+from ..models import Category
 
 register = template.Library()
 

@@ -1,8 +1,9 @@
-from django.views.generic import ArchiveIndexView, MonthArchiveView, DateDetailView
-from django.shortcuts import get_object_or_404
 from django.conf import settings
-from .models import Category
+from django.shortcuts import get_object_or_404
+from django.views.generic import ArchiveIndexView, DateDetailView, MonthArchiveView
+
 from . import get_post_model
+from .models import Category
 
 
 class PostListView(ArchiveIndexView):
