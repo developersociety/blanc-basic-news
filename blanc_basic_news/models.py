@@ -1,8 +1,9 @@
 from __future__ import unicode_literals
-from django.utils.encoding import python_2_unicode_compatible
+
+from blanc_basic_assets.fields import AssetForeignKey
 from django.db import models
 from django.utils import timezone
-from blanc_basic_assets.fields import AssetForeignKey
+from django.utils.encoding import python_2_unicode_compatible
 
 
 @python_2_unicode_compatible
@@ -25,7 +26,7 @@ class Category(models.Model):
 
 
 @python_2_unicode_compatible
-class AbstractPost(models.Model):
+class Post(models.Model):
     title = models.CharField(max_length=100, db_index=True)
     category = models.ForeignKey(Category)
     slug = models.SlugField(max_length=100, unique_for_date='date')
@@ -34,14 +35,13 @@ class AbstractPost(models.Model):
     image = AssetForeignKey('assets.Image', null=True, blank=True)
     teaser = models.TextField(blank=True)
     content = models.TextField()
-    published = models.BooleanField(default=True,
-                                    db_index=True,
-                                    help_text='Post will be hidden unless this option is selected')
+    published = models.BooleanField(
+        default=True, db_index=True,
+        help_text='Post will be hidden unless this option is selected')
 
     class Meta:
         get_latest_by = 'date'
         ordering = ('-date',)
-        abstract = True
 
     def __str__(self):
         return self.title
@@ -57,9 +57,4 @@ class AbstractPost(models.Model):
 
     def save(self, *args, **kwargs):
         self.date_url = self.date.date()
-        super(AbstractPost, self).save(*args, **kwargs)
-
-
-class Post(AbstractPost):
-    class Meta(AbstractPost.Meta):
-        swappable = 'NEWS_POST_MODEL'
+        super(Post, self).save(*args, **kwargs)

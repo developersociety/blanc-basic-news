@@ -1,7 +1,7 @@
 from django import template
 from django.utils import timezone
-from blanc_basic_news import get_post_model
-from blanc_basic_news.models import Category
+
+from ..models import Category, Post
 
 register = template.Library()
 
@@ -13,14 +13,12 @@ def get_news_categories():
 
 @register.assignment_tag
 def get_news_months():
-    return get_post_model().objects.filter(
-        published=True, date__lte=timezone.now()).dates('date_url', 'month')
+    return Post.objects.filter(published=True, date__lte=timezone.now()).dates('date_url', 'month')
 
 
 @register.assignment_tag
 def get_latest_news(count, category=None):
-    post_list = get_post_model().objects.select_related().filter(
-        published=True, date__lte=timezone.now())
+    post_list = Post.objects.select_related().filter(published=True, date__lte=timezone.now())
 
     # Optional filter by category
     if category is not None:
