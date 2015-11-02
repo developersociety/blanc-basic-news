@@ -59,11 +59,11 @@ Once this is done, run ``python manage.py migrate`` to update your database.
 
 Edit your Django project's URL config file, and add the URL pattern for news::
 
-    urlpatterns = patterns('',
+    urlpatterns = [
         ...
 
         # News
         url(r'^news/', include('blanc_basic_news.urls', namespace='blanc_basic_news')),
-    )
+    ]
 
 Then your project will be ready to use the news package.
