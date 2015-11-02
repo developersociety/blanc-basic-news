@@ -44,12 +44,12 @@ Edit your Django project's settings module, ensure that the required
 dependencies are installed and configured, then add ``blanc_basic_news`` to
 ``INSTALLED_APPS``::
 
-    INSTALLED_APPS = (
+    INSTALLED_APPS = [
         ...
         'blanc_basic_assets',
         ...
         'blanc_basic_news',
-    )
+    ]
 
 Also in the settings file you should edit the title for RSS feeds::
 
