@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from django.db import models
 from django.utils import timezone
 
@@ -36,9 +38,11 @@ class AbstractPost(models.Model):
     teaser = models.TextField(blank=True)
     content = models.TextField()
     published = models.BooleanField(
-            default=True,
-            db_index=True,
-            help_text='Post will be hidden unless this option is selected')
+        default=True,
+        db_index=True,
+        help_text='Post will be hidden unless this option is selected'
+    )
+    url = models.URLField(blank=True)
 
     class Meta:
         get_latest_by = 'date'
@@ -50,12 +54,15 @@ class AbstractPost(models.Model):
 
     @models.permalink
     def get_absolute_url(self):
-        return ('blanc_basic_news:post-detail', (), {
-            'year': self.date_url.year,
-            'month': str(self.date_url.month).zfill(2),
-            'day': str(self.date_url.day).zfill(2),
-            'slug': self.slug,
-        })
+        if self.url:
+            return self.url
+        else:
+            return ('blanc_basic_news:post-detail', (), {
+                'year': self.date_url.year,
+                'month': str(self.date_url.month).zfill(2),
+                'day': str(self.date_url.day).zfill(2),
+                'slug': self.slug,
+            })
 
     def save(self, *args, **kwargs):
         self.date_url = self.date.date()
