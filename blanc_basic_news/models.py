@@ -1,9 +1,13 @@
+# -*- coding: utf-8 -*-
+
 from __future__ import unicode_literals
 
-from blanc_basic_assets.fields import AssetForeignKey
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
+
+from blanc_basic_assets.fields import AssetForeignKey
 
 
 @python_2_unicode_compatible
@@ -37,7 +41,9 @@ class Post(models.Model):
     content = models.TextField()
     published = models.BooleanField(
         default=True, db_index=True,
-        help_text='Post will be hidden unless this option is selected')
+        help_text='Post will be hidden unless this option is selected'
+    )
+    url = models.URLField(blank=True)
 
     class Meta:
         get_latest_by = 'date'
@@ -46,14 +52,20 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-    @models.permalink
     def get_absolute_url(self):
-        return ('blanc_basic_news:post-detail', (), {
-            'year': self.date_url.year,
-            'month': str(self.date_url.month).zfill(2),
-            'day': str(self.date_url.day).zfill(2),
-            'slug': self.slug,
-        })
+        """ Get absolute url sometimes we assign external url to the post. """
+        url = '/'
+        if self.url:
+            url = self.url
+        else:
+            params = {
+                'year': self.date_url.year,
+                'month': str(self.date_url.month).zfill(2),
+                'day': str(self.date_url.day).zfill(2),
+                'slug': self.slug,
+            }
+            url = reverse('blanc_basic_news:post-detail', kwargs=params)
+        return url
 
     def save(self, *args, **kwargs):
         self.date_url = self.date.date()
