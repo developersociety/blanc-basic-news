@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils import timezone
 
@@ -29,10 +30,11 @@ class AbstractPost(models.Model):
     date = models.DateTimeField(default=timezone.now, db_index=True)
     date_url = models.DateField(db_index=True, editable=False)
     image = models.ImageField(
-            upload_to='news/image/%Y/%m',
-            height_field='image_height',
-            width_field='image_width',
-            blank=True)
+        upload_to='news/image/%Y/%m',
+        height_field='image_height',
+        width_field='image_width',
+        blank=True
+    )
     image_height = models.PositiveIntegerField(null=True, editable=False)
     image_width = models.PositiveIntegerField(null=True, editable=False)
     teaser = models.TextField(blank=True)
@@ -52,12 +54,11 @@ class AbstractPost(models.Model):
     def __unicode__(self):
         return self.title
 
-    @models.permalink
     def get_absolute_url(self):
         if self.url:
             return self.url
         else:
-            return ('blanc_basic_news:post-detail', (), {
+            return reverse('blanc_basic_news:post-detail', kwargs={
                 'year': self.date_url.year,
                 'month': str(self.date_url.month).zfill(2),
                 'day': str(self.date_url.day).zfill(2),
