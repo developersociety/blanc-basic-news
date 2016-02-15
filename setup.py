@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+
 try:
     from setuptools import setup
 except ImportError:
@@ -7,7 +8,7 @@ except ImportError:
 
 setup(
     name='blanc-basic-news',
-    version='0.2.4',
+    version='0.2.5',
     description='Blanc Basic News for Django',
     long_description=open('README.rst').read(),
     url='http://www.blanctools.com/',
