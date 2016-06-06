@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -26,9 +27,12 @@ class Category(models.Model):
 class AbstractPost(models.Model):
     title = models.CharField(max_length=100, db_index=True)
     category = models.ForeignKey(Category)
-    slug = models.SlugField(max_length=100, unique_for_date='date')
+    slug = models.SlugField(max_length=100, unique_for_date='date_url')
     date = models.DateTimeField(default=timezone.now, db_index=True)
-    date_url = models.DateField(db_index=True, editable=False)
+    date_url = models.DateField(
+        'Publish on',
+        default=timezone.now
+    )
     image = models.ImageField(
         upload_to='news/image/%Y/%m',
         height_field='image_height',
@@ -66,7 +70,6 @@ class AbstractPost(models.Model):
             })
 
     def save(self, *args, **kwargs):
-        self.date_url = self.date.date()
         super(AbstractPost, self).save(*args, **kwargs)
 
 
