@@ -18,7 +18,7 @@ def get_news_months():
 
 @register.assignment_tag
 def get_latest_news(count, category=None):
-    post_list = Post.objects.select_related().filter(published=True, date__lte=timezone.now())
+    post_list = Post.objects.select_related().filter(published=True, date__lte=timezone.now()).latest()
 
     # Optional filter by category
     if category is not None:
