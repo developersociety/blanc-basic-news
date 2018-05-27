@@ -7,7 +7,7 @@ setup(
     version='0.3.2',
     description='Blanc Basic News for Django',
     long_description=open('README.rst').read(),
-    url='https://github.com/blancltd/blanc-basic-news',
+    url='https://github.com/developersociety/blanc-basic-news',
     maintainer='Blanc Ltd',
     maintainer_email='studio@blanc.ltd.uk',
     platforms=['any'],
