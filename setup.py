@@ -8,8 +8,8 @@ setup(
     description='Blanc Basic News for Django',
     long_description=open('README.rst').read(),
     url='https://github.com/developersociety/blanc-basic-news',
-    maintainer='Blanc Ltd',
-    maintainer_email='studio@blanc.ltd.uk',
+    maintainer='The Developer Society',
+    maintainer_email='studio@dev.ngo',
     platforms=['any'],
     install_requires=[
         'blanc-basic-assets>=0.3',
